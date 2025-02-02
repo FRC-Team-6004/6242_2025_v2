@@ -12,12 +12,14 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.generated.TunerConstants;
@@ -79,7 +81,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(-m_xspeedLimiter.calculate(joystick.getLeftY()) * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-m_yspeedLimiter.calculate(joystick.getLeftX()) * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(m_rotLimiter.calculate(joystick.getRightX()) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(m_rotLimiter.calculate(joystick.getRightX()) * MaxAngularRate * -1 ) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -102,7 +104,7 @@ public class RobotContainer {
         joystick.rightBumper().whileTrue(
                 //lime light aim any april tag                
                 drivetrain.applyRequest(() -> drive.withVelocityX(-limelight_range_proportional())
-                .withVelocityY(-.5 * MaxSpeed*(.4))
+                .withVelocityY(0)
                 .withRotationalRate(limelight_aim_proportional()))
         );
         //command drive to tag, to be changed to an auto command
@@ -117,7 +119,7 @@ public class RobotContainer {
     //function to drive to tag
     void driveToTag(){
         drivetrain.applyRequest(() -> drive.withVelocityX(-limelight_range_proportional())
-        .withVelocityY(-.5 * MaxSpeed*(.4))
+        .withVelocityY(.5 * MaxSpeed*(.4))//Changed -.5 to .5
         .withRotationalRate(limelight_aim_proportional()));
     }
 
@@ -158,4 +160,7 @@ public class RobotContainer {
         System.out.println(targetingForwardSpeed);
         return targetingForwardSpeed;
     }
+
+    
+
 }

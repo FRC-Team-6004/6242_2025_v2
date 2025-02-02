@@ -1,0 +1,35 @@
+/*
+002 * Copyright (C) Cross The Road Electronics.  All rights reserved.
+003 * License information can be found in CTRE_LICENSE.txt
+004 * For support and suggestions contact support@ctr-electronics.com or file
+005 * an issue tracker at https://github.com/CrossTheRoadElec/Phoenix-Releases
+006 */
+
+package com.ctre.phoenix6.hardware.core;
+
+import com.ctre.phoenix6.hardware.ParentDevice;
+import com.ctre.phoenix6.controls.*;
+import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.jni.PlatformJNI;
+import com.ctre.phoenix6.sim.DeviceType;
+import com.ctre.phoenix6.sim.CANrangeSimState;
+import com.ctre.phoenix6.*;
+import com.ctre.phoenix6.spns.*;
+import com.ctre.phoenix6.signals.*;
+import edu.wpi.first.units.*;
+import edu.wpi.first.units.measure.*;
+import static edu.wpi.first.units.Units.*;
+
+ final int kCANrangeId = 0;
+
+ CANrange CANrange = new CANrange(kCANrangeId);
+
+ CANrangeConfiguration configs = new CANrangeConfiguration();
+
+
+ CANrange.getConfigurator().apply(configs);
+
+ var distance = CANrange.getDistance();
+ 
+ System.out.println("Distance is " + distance.refresh().toString());
